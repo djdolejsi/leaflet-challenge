@@ -1,7 +1,7 @@
 // Store our API endpoint urls.
 
 var earthquakeURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
-var tecplatesURL = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
+var tecplatesURL = "https://github.com/fraxen/tectonicplates/blob/master/GeoJSON/PB2002_boundaries.json"
 
 // Create layerGroups
 
@@ -70,14 +70,14 @@ L.control.layers(baseMaps, overlayMaps, {
 // Getting GEOJSON data
 
 d3.json(earthquakeURL, function(earthquakeData) {
-    // Determine the marker size by magnitude
-    function markerSize(magnitude) {
-      return magnitude * 4;
-    };
+// Determine the marker size by magnitude
+  function markerSize(magnitude) {
+    return magnitude * 4;
+  };
 
-    // Determine the marker color by depth
-    function chooseColor(depth) {
-    switch(true) {
+  // Determine the marker color by depth
+  function chooseColor(depth) {
+    switch (true) {
       case depth > 90:
         return "red";
       case depth > 70:
@@ -91,7 +91,7 @@ d3.json(earthquakeURL, function(earthquakeData) {
       default:
         return "lightgreen";
     }
-  }
+  };
 
   // Create a GeoJSON layer containing the features array
   // Each feature a popup describing the place and time of the earthquake
@@ -126,20 +126,20 @@ d3.json(earthquakeURL, function(earthquakeData) {
     tectonicplates.addTo(myMap);
   });
 
-    // Add legend
-    var legend = L.control({position: "bottomright"});
-    legend.onAdd = function() {
-      var div = L.DomUtil.create("div", "info legend"),
-      depth = [-10, 10, 30, 50, 70, 90];
+  // Add legend
+  var legend = L.control({position: "bottomright"});
+  legend.onAdd = function() {
+    var div = L.DomUtil.create("div", "info legend"),
+    depth = [-10, 10, 30, 50, 70, 90];
       
-      div.innerHTML += "<h3 style='text-align: center'>Depth</h3>"
+    div.innerHTML += "<h3 style='text-align: center'>Depth</h3>"
   
-      for (var i =0; i < depth.length; i++) {
-        div.innerHTML += 
-        '<i style="background:' + chooseColor(depth[i] + 1) + '"></i> ' +
-            depth[i] + (depth[i + 1] ? '&ndash;' + depth[i + 1] + '<br>' : '+');
-        }
-        return div;
-      };
-      legend.addTo(myMap);
+    for (var i =0; i < depth.length; i++) {
+      div.innerHTML += 
+      '<i style="background:' + chooseColor(depth[i] + 1) + '"></i> ' +
+      depth[i] + (depth[i + 1] ? '&ndash;' + depth[i + 1] + '<br>' : '+');
+    }
+  return div;
+  };
+  legend.addTo(myMap);
 });
